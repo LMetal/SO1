@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+
+void proc(int i)
+{
+  int n;
+
+  printf("Processo %d con pid %d\n",i,getpid());
+  for (n=0;n<500000000;n++);
+}
+
+int main(int argc, char *argv[])
+{
+  int i, status;
+  pid_t pid;
+  int pid_f = 0;
+
+  for(i=0;i<5;i++)
+	if (pid_f = fork()==0) //  eseguito dal figlio
+		{
+          proc(i);
+          exit(0); //fine esecuzione figlio
+        };
+
+  for(i=0;i<5;i++)  //  eseguito dal padre
+	{
+      pid = waitpid(pid_f, &status, 0);  // aspetta exit figli
+      if(WIFEXITED(status)){ // vera se figlio finisce normalmente
+        printf("Processo figlio %d terminato regolarmente, stato d'uscita: %d\n", pid, WEXITSTATUS(status) );
+      }
+	}
+  return 0; /* ... ma facciamo male a non verificare errori nelle system calls */
+}

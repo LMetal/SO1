@@ -55,7 +55,7 @@ int userin()		/* stampa il prompt e legge una riga */
     if (c == '\n') {	/* implicito se si arriva qui: count >= MAXBUF */
       printf("riga in input troppo lunga\n");
       count = 0;
-      printf("%s:%s: ", user, home);
+      printf("%%%s:%s: ", user, home);
     }
   }
 }
